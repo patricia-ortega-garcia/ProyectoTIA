@@ -139,6 +139,8 @@ def breadthFirstSearch(problem):
 	visitados = []
 	costeTotal = 0
 
+	#prueba de github
+
 	while porVisitar:
 		print(porVisitar)
 		nodoAct, camino_hasta_nodo = porVisitar.pop(0) #Nodo y camino que indica como se llega hasta él
