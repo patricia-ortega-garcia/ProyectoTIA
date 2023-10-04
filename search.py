@@ -177,7 +177,6 @@ def breadthFirstSearch(problem):
 
 def uniformCostSearch(problem):
 	"""Search the node of least total cost first."""
-	"*** YOUR CODE HERE ***"
 	print("SE ESTÁ USANDO EL MÉTODO uniformCostSearch")
 
 	nodoInicial = problem.getStartState()
@@ -204,9 +203,6 @@ def uniformCostSearch(problem):
 	# prueba111222
 	#3prpr
 
-	util.raiseNotDefined()
-
-
 def nullHeuristic(state, problem=None):
 	"""
 	A heuristic function estimates the cost from the current state to the nearest
@@ -217,8 +213,39 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem, heuristic=nullHeuristic):
 	"""Search the node that has the lowest combined cost and heuristic first."""
-	"*** YOUR CODE HERE ***"
-	util.raiseNotDefined()
+	
+	nodoInicial = problem.getStartState()
+	porVisitar = [(0, 0, nodoInicial, [])] #Tupla: coste + heuristico, coste acumuado, nodo, camino hasta el nodo
+	visitados = []
+	while porVisitar:
+		
+		costeHeuristico, costeAcum, nodoAct, camino_hasta_nodo = heapq.heappop(porVisitar) #Nodo y camino que indica como se llega hasta él 
+		if nodoAct not in visitados:
+			
+			if problem.isGoalState(nodoAct):
+				print("¡Hemos llegado al objetivo!")
+				print("Las direcciones que tenemos que tomar hasta la comida son las siguientes: ")
+				print(camino_hasta_nodo)
+				print("Y el coste total del camino es: ")
+				print(costeAcum)
+				return camino_hasta_nodo
+			
+			else: 
+				visitados.append(nodoAct)
+				for nodoSucesor, direcSucesor, costeSucesor in problem.getSuccessors(nodoAct):
+					nuevoCoste = costeAcum + costeSucesor 
+					costeHeuristico = nuevoCoste + heuristic(nodoSucesor,problem)
+					nuevoCamino = camino_hasta_nodo + [direcSucesor]
+					if nodoSucesor not in visitados:
+						heapq.heappush(porVisitar, (costeHeuristico, nuevoCoste, nodoSucesor, nuevoCamino))
+
+
+
+
+
+
+
+
 
 
 # Abbreviations
