@@ -240,8 +240,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 						heapq.heappush(porVisitar, (costeHeuristico, nuevoCoste, nodoSucesor, nuevoCamino))
 
 
-
-
+	# ppdpd
+	# dddd
 
 
 
