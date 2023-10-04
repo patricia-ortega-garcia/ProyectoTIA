@@ -19,6 +19,7 @@ Pacman agents (in searchAgents.py).
 
 from abc import ABC, abstractmethod
 from util import Stack
+import heapq
 
 
 class SearchProblem(ABC):
@@ -91,6 +92,7 @@ def depthFirstSearch(problem):
 
 	"""
 	"*** YOUR CODE HERE ***"
+	print("SE ESTÁ USANDO EL MÉTODO depthFirstSearch")
 
 	#print("Start:", problem.getStartState())
 	#print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
@@ -133,6 +135,7 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
 	"""Search the shallowest nodes in the search tree first."""
 	"*** YOUR CODE HERE ***"
+	print("SE ESTÁ USANDO EL MÉTODO breadthFirstSearch")
 	
 	nodoInicial = problem.getStartState()
 	porVisitar = [(nodoInicial, [])] #Nodo y camino que indica como se llega hasta él
@@ -143,7 +146,7 @@ def breadthFirstSearch(problem):
 	# ffff
 
 	while porVisitar:
-		print(porVisitar)
+		#print(porVisitar)
 		nodoAct, camino_hasta_nodo = porVisitar.pop(0) #Nodo y camino que indica como se llega hasta él
 
 		#print(str(camino_hasta_nodo))
@@ -175,6 +178,31 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
 	"""Search the node of least total cost first."""
 	"*** YOUR CODE HERE ***"
+	print("SE ESTÁ USANDO EL MÉTODO uniformCostSearch")
+
+	nodoInicial = problem.getStartState()
+	porVisitar = [(0, nodoInicial, [])] #Tupla: coste acumuado, nodo, camino hasta el nodo
+	visitados = []
+	while porVisitar:
+		costeAcum, nodoAct, camino_hasta_nodo = heapq.heappop(porVisitar) #Nodo y camino que indica como se llega hasta él 
+		if nodoAct not in visitados:
+			if problem.isGoalState(nodoAct):
+				print("¡Hemos llegado al objetivo!")
+				print("Las direcciones que tenemos que tomar hasta la comida son las siguientes: ")
+				print(camino_hasta_nodo)
+				print("Y el coste total del camino es: ")
+				print(costeAcum)
+				return camino_hasta_nodo
+			
+			else: 
+				visitados.append(nodoAct)
+				for nodoSucesor, direcSucesor, costeSucesor in problem.getSuccessors(nodoAct):
+					nuevoCoste = costeAcum + costeSucesor
+					nuevoCamino = camino_hasta_nodo + [direcSucesor]
+					if nodoSucesor not in visitados:
+						heapq.heappush(porVisitar, (nuevoCoste, nodoSucesor, nuevoCamino))
+
+
 	util.raiseNotDefined()
 
 
