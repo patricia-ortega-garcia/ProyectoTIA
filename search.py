@@ -201,7 +201,7 @@ def uniformCostSearch(problem):
 					nuevoCamino = camino_hasta_nodo + [direcSucesor]
 					if nodoSucesor not in visitados:
 						heapq.heappush(porVisitar, (nuevoCoste, nodoSucesor, nuevoCamino))
-
+	# prueba111
 
 	util.raiseNotDefined()
 
