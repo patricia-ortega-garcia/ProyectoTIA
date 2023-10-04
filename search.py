@@ -196,12 +196,12 @@ def uniformCostSearch(problem):
 			else: 
 				visitados.append(nodoAct)
 				for nodoSucesor, direcSucesor, costeSucesor in problem.getSuccessors(nodoAct):
-					nuevoCoste = costeAcum + costeSucesor
+					(nuevoCoste) = costeAcum + costeSucesor
 					nuevoCamino = camino_hasta_nodo + [direcSucesor]
 					if nodoSucesor not in visitados:
 						heapq.heappush(porVisitar, (nuevoCoste, nodoSucesor, nuevoCamino))
 	# prueba111222
-	#3prpr
+	# 3prpr
 
 def nullHeuristic(state, problem=None):
 	"""
