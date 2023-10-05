@@ -307,14 +307,16 @@ class CornersProblem(search.SearchProblem):
 
         if self.startingPosition == self.corners[0]:
             cornersVisitadas[0] = True  
-        else if self.startingPosition == self.corners[1]:
+        elif self.startingPosition == self.corners[1]:
             cornersVisitadas[1] = True  
-        else if self.startingPosition == self.corners[2]:
+        elif self.startingPosition == self.corners[2]:
             cornersVisitadas[2] = True  
-        else if self.startingPosition == self.corners[3]:
+        elif self.startingPosition == self.corners[3]:
             cornersVisitadas[3] = True
-
+        
+       
         self.estadoInicial = (self.startingPosition, cornersVisitadas)
+      
 
     def getStartState(self):
         """
@@ -322,6 +324,8 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
+        #cornersVisitados = []
+        #self.estadoInicial = (self.startingPosition, self.cornersVisitadas)
         return self.estadoInicial
         #util.raiseNotDefined()
 
@@ -355,10 +359,10 @@ class CornersProblem(search.SearchProblem):
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
-            #   x,y = currentPosition
-            #   dx, dy = Actions.directionToVector(action)
-            #   nextx, nexty = int(x + dx), int(y + dy)
-            #   hitsWall = self.walls[nextx][nexty]
+            x,y = state[0]
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
 
