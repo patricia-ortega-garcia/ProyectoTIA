@@ -18,7 +18,8 @@ Pacman agents (in searchAgents.py).
 """
 
 from abc import ABC, abstractmethod
-from util import Stack
+#from util import Stack, PriorityQueue
+import util
 import heapq
 
 
@@ -177,6 +178,8 @@ def breadthFirstSearch(problem):
 
 def uniformCostSearch(problem):
 	"""Search the node of least total cost first."""
+	"""
+	#VERSION 1 DEL CODIGO
 	print("SE ESTÁ USANDO EL MÉTODO uniformCostSearch")
 
 	nodoInicial = problem.getStartState()
@@ -200,8 +203,35 @@ def uniformCostSearch(problem):
 					nuevoCamino = camino_hasta_nodo + [direcSucesor]
 					if nodoSucesor not in visitados:
 						heapq.heappush(porVisitar, (nuevoCoste, nodoSucesor, nuevoCamino))
-	# prueba111222
-	# 3prpr
+	"""
+
+
+	#VERSION FINAL DEL CODIGO
+	print("SE ESTÁ USANDO EL MÉTODO uniforCostSearch")
+	nodoInicial = problem.getStartState()
+	visitados = []
+	porVisitar = util.PriorityQueue() #Tupla: (nodo, camino hasta el nodo) costeAcumulado
+	porVisitar.push((nodoInicial, []), 0)
+
+	while porVisitar:
+		nodoAct, camino_hasta_nodo = porVisitar.pop() #Nodo y camino que indica como se llega hasta él 
+		if nodoAct not in visitados:
+			if problem.isGoalState(nodoAct):
+				print("¡Hemos llegado al objetivo!")
+				print("Las direcciones que tenemos que tomar hasta la comida son las siguientes: ")
+				print(camino_hasta_nodo)
+				return camino_hasta_nodo
+			
+			else: 
+				visitados.append(nodoAct)
+				for nodoSucesor, direcSucesor, costeSucesor in problem.getSuccessors(nodoAct):
+					nuevoCamino = camino_hasta_nodo + [direcSucesor]
+					nuevoCoste = problem.getCostOfActions(nuevoCamino) + costeSucesor
+					if nodoSucesor not in visitados:
+						porVisitar.push((nodoSucesor, nuevoCamino), nuevoCoste)
+
+
+
 
 def nullHeuristic(state, problem=None):
 	"""
