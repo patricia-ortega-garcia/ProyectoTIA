@@ -307,16 +307,14 @@ class CornersProblem(search.SearchProblem):
 
         if self.startingPosition == self.corners[0]:
             cornersVisitadas[0] = True  
-        elif self.startingPosition == self.corners[1]:
+        if self.startingPosition == self.corners[1]:
             cornersVisitadas[1] = True  
-        elif self.startingPosition == self.corners[2]:
+        if self.startingPosition == self.corners[2]:
             cornersVisitadas[2] = True  
-        elif self.startingPosition == self.corners[3]:
+        if self.startingPosition == self.corners[3]:
             cornersVisitadas[3] = True
-        
-       
+
         self.estadoInicial = (self.startingPosition, cornersVisitadas)
-      
 
     def getStartState(self):
         """
@@ -324,8 +322,6 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        #cornersVisitados = []
-        #self.estadoInicial = (self.startingPosition, self.cornersVisitadas)
         return self.estadoInicial
         #util.raiseNotDefined()
 
@@ -359,12 +355,37 @@ class CornersProblem(search.SearchProblem):
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
-            x,y = state[0]
+            #   x,y = currentPosition
+            #   dx, dy = Actions.directionToVector(action)
+            #   nextx, nexty = int(x + dx), int(y + dy)
+            #   hitsWall = self.walls[nextx][nexty]
+
+            "*** YOUR CODE HERE ***"
+            currentPosition = state[0]
+            x,y = currentPosition
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
             hitsWall = self.walls[nextx][nexty]
 
-            "*** YOUR CODE HERE ***"
+            if not hitsWall: #Si no choca con una pared...
+                siguienteEstado = (nextx, nexty)
+
+                esquinasVisitadas = list(state[1])
+                if siguienteEstado == self.corners[0]:
+                    esquinasVisitadas[0] = True
+                
+                if siguienteEstado == self.corners[1]:
+                    esquinasVisitadas[1] = True
+                
+                if siguienteEstado == self.corners[2]:
+                    esquinasVisitadas[2] = True
+                
+                if siguienteEstado == self.corners[3]:
+                    esquinasVisitadas[3] = True
+
+                cost = 1
+                successors.append(((siguienteEstado, tuple(esquinasVisitadas)), action, cost))
+
 
         self._expanded += 1  # DO NOT CHANGE
         return successors
