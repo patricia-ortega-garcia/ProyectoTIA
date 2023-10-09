@@ -421,6 +421,30 @@ def cornersHeuristic(state, problem):
     walls = problem.walls  # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
+    porVisitar = []
+    currentPosition = state[0]
+    cornersVisitadasAct = state[1]
+    
+    heuristico = 0
+    colaPrioridad = util.PriorityQueue()
+
+    listaDistancias = []
+
+    #Añadimos a la lista de porVisitar las esquinas a las que no hemos ido
+    for esquina in corners:
+        if esquina not in cornersVisitadasAct:
+            porVisitar.append(esquina)
+
+
+    #Calcular la distancia desde el nodo actual hasta todas las esquinas
+    while porVisitar:   #Mientras queden esquinas por visitar...
+        esquinaAct = porVisitar.pop()
+        distanciaAct = util.manhattanDistance(currentPosition, esquinaAct)
+        listaDistancias.append(distanciaAct)
+
+    distanciaMinima = min(listaDistancias)
+    return distanciaMinima
+
     return 0  # Default to trivial solution
 
 
@@ -556,6 +580,8 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
+        #return search.bfs(problem)
+        return search.bfs(problem)
         util.raiseNotDefined()
 
 
@@ -594,6 +620,8 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x, y = state
 
         "*** YOUR CODE HERE ***"
+        obj = self.food[x][y]
+        return obj
         util.raiseNotDefined()
 
 
