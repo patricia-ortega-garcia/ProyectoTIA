@@ -105,7 +105,7 @@ def depthFirstSearch(problem):
 	costeTotal = 0
 
 	while porVisitar:
-		print(porVisitar)
+		#print(porVisitar)
 		nodoAct, camino_hasta_nodo = porVisitar.pop() #Nodo y camino que indica como se llega hasta él
 
 		#print(str(camino_hasta_nodo))
@@ -119,11 +119,16 @@ def depthFirstSearch(problem):
 				print("Y el coste total del camino es: ")
 				print(str(costeTotal))
 				
+
 				return camino_hasta_nodo
 
 			else:
 				visitados.append(nodoAct)
+				print("El nodo que estamos mirando ahora es: ")
+				print(nodoAct)
+				print("Y sus sucesores son: ")
 				for nodoSucesor, direcSucesor, costeSucesor in problem.getSuccessors(nodoAct):
+					print(nodoSucesor)
 					nuevoCamino = camino_hasta_nodo + [direcSucesor]
 					nuevoNodo = (nodoSucesor, nuevoCamino)
 					costeTotal = costeTotal + costeSucesor # NO LO DEVUELVE BIEN
