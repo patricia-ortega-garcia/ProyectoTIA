@@ -421,10 +421,10 @@ def cornersHeuristic(state, problem):
     walls = problem.walls  # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    
+    print(state)
     porVisitar = []
     currentPosition = state[0]
-    cornersVisitadasAct = state[1]
+    cornersVisitadasAct = list(state[1])
     
     heuristico = 0
     colaPrioridad = util.PriorityQueue()
@@ -440,67 +440,25 @@ def cornersHeuristic(state, problem):
         return 0  # Default to trivial solution
 
     if currentPosition in porVisitar:
+        print("Hemos llegado a la esquina")
         pos = 0
         encontrado = False
         while not encontrado:
             if currentPosition == porVisitar[pos]:
                 encontrado = True
+                new_state = (state[0], tuple(True if i == pos else value for i, value in enumerate(state[1])))
+                state = new_state
             pos = pos +1
-
-        porVisitar.pop(pos-1)
 
 
     #Calcular la distancia desde el nodo actual hasta todas las esquinas
-    for i in porVisitar:   #Mientras queden esquinas por visitar...
-        esquinaAct = porVisitar[i]
-        distanciaAct = util.manhattanDistance(currentPosition, esquinaAct)
-        listaDistancias.append(distanciaAct)
+    while porVisitar: #Mientras queden esquinas por visitar ...
+        esquinaAct = porVisitar.pop()
+        distanciaAct = util .manhattanDistance(currentPosition, esquinaAct)
+        listaDistancias .append(distanciaAct)
 
     distanciaMinima = min(listaDistancias)
     return distanciaMinima
-    """
-    porVisitar = []
-    currentPosition = state[0]
-    cornersVisitadasAct = state[1]
-    
-    heuristico = 0
-    esquinasOrdenadas = util.PriorityQueue()
-
-    listaDistancias = []
-
-    #Añadimos a la lista de porVisitar las esquinas a las que no hemos ido
-    for esquina in corners:
-        if esquina not in cornersVisitadasAct:
-            porVisitar.append(esquina)
-
-    # Si no quedan esquinas por visitar, la heurística es 
-    if not porVisitar:
-        return 0
-
-    distanciasMinimas = {}
-    for esquina1 in porVisitar:
-        for esquina2 in porVisitar:
-            if esquina1 != esquina2 and (esquina2, esquina1) not in distanciasMinimas:
-                distanciaEntreEsquinas = util.manhattanDistance(esquina1, esquina2)
-                distanciasMinimas[(esquina1, esquina2)] = distanciaEntreEsquinas
-    
-    print("//////////////////////////////////////")
-    print(distanciasMinimas)
-    
-    while porVisitar:   #Mientras queden esquinas por visitar...
-        esquinaAct = porVisitar.pop()
-        distanciaAct = util.manhattanDistance(currentPosition, esquinaAct)
-        listaDistancias.append(distanciaAct)
-
-    distanciaTotalEsq = 0
-    for coords, dist in distanciasMinimas.items():
-        print(dist)
-        distanciaTotalEsq += dist
-
-    distanciaMinima = min(listaDistancias) + distanciaTotalEsq
-
-    return distanciaMinima
-    """
     
 
 
