@@ -435,8 +435,11 @@ def cornersHeuristic(state, problem):
         if esquina not in cornersVisitadasAct:
             porVisitar.append(esquina)
 
-
+    if not porVisitar:
+        return 0  # Default to trivial solution
+        
     #Calcular la distancia desde el nodo actual hasta todas las esquinas
+
     while porVisitar:   #Mientras queden esquinas por visitar...
         esquinaAct = porVisitar.pop()
         distanciaAct = util.manhattanDistance(currentPosition, esquinaAct)
@@ -445,7 +448,7 @@ def cornersHeuristic(state, problem):
     distanciaMinima = min(listaDistancias)
     return distanciaMinima
 
-    return 0  # Default to trivial solution
+    
 
 
 class AStarCornersAgent(SearchAgent):
