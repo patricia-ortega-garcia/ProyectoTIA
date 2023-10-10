@@ -421,45 +421,78 @@ def cornersHeuristic(state, problem):
     walls = problem.walls  # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    print(state)
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     porVisitar = []
     currentPosition = state[0]
-    cornersVisitadasAct = list(state[1])
+    cornersVisitadasAct = list(state[1])  #Booleanos de si hemos visitado la esquina o no
     
     heuristico = 0
     colaPrioridad = util.PriorityQueue()
 
     listaDistancias = []
 
+    sumaDeDistancias = 0
+
     #Añadimos a la lista de porVisitar las esquinas a las que no hemos ido
-    for esquina in corners:
-        if esquina not in cornersVisitadasAct:
-            porVisitar.append(esquina)
+    for i in range(len(corners)):
+        if not cornersVisitadasAct[i]:
+            porVisitar.append(corners[i])
 
-    if not porVisitar:
-        return 0  # Default to trivial solution
-
-    if currentPosition in porVisitar:
-        print("Hemos llegado a la esquina")
-        pos = 0
-        encontrado = False
-        while not encontrado:
-            if currentPosition == porVisitar[pos]:
-                encontrado = True
-                new_state = (state[0], tuple(True if i == pos else value for i, value in enumerate(state[1])))
-                state = new_state
-            pos = pos +1
-
+    if not porVisitar: # Si la lista está vacia
+        return 0  # Si ya están todos visitados
 
     #Calcular la distancia desde el nodo actual hasta todas las esquinas
-    while porVisitar: #Mientras queden esquinas por visitar ...
-        esquinaAct = porVisitar.pop()
-        distanciaAct = util .manhattanDistance(currentPosition, esquinaAct)
-        listaDistancias .append(distanciaAct)
+    for i in range(len(porVisitar)):   #Mientras queden esquinas por visitar...
+        esquinaAct = porVisitar[i]
+        distanciaAct = util.manhattanDistance(currentPosition, esquinaAct)
+        listaDistancias.append(distanciaAct)
 
-    distanciaMinima = min(listaDistancias)
-    return distanciaMinima
+    sumaDeDistancias = min(listaDistancias) #Esquina más cercana al Pacman
+
+    indi = listaDistancias.index(sumaDeDistancias)
+    actual = porVisitar.pop(indi)
+    print("La primera esquina visitada es: ")
+    print("")
+
+    #Ponemos a true la primera esquina a la que vamos
+    pos = corners.index(actual)
+    cornersVisitadasAct[pos] = True
+
+    #Desde la primera esquina, hay que sumar la distancia al resto de esquinas
+    while porVisitar:
+        #siguiente = porVisitar.pop()
+        siguiente = esquinaCercanaNoVisitada(actual, corners, cornersVisitadasAct)
+        pos = porVisitar.index(siguiente)
+        
+        quitada = porVisitar.pop(pos)
+        posicion = corners.index(quitada)
+        cornersVisitadasAct[posicion] = True
+
+        sumaDeDistancias = sumaDeDistancias + util.manhattanDistance(actual, siguiente)
+        actual = siguiente
     
+    print("Heuristico: ")
+    print(sumaDeDistancias)
+    return sumaDeDistancias
+
+
+def esquinaCercanaNoVisitada(eAct, esquinas, visitadas): #devuelve la esquina más cercana no visitada
+    distanciasAeAct = []
+    for i in range(len(esquinas)):
+        #Calcular las distancias hasta cada esquina 
+        if visitadas[i] == True:
+            distanciasAeAct.append(float('inf'))
+        else:
+            distanciasAeAct.append(util.manhattanDistance(eAct, esquinas[i]))
+        
+        #Ver en qué posición está la distancia más pequeña
+        minimo = min(distanciasAeAct)
+        indice = distanciasAeAct.index(minimo)
+
+        #Sacar la coordenada que tenga el mismo indice
+        coordenada = esquinas[indice]
+
+    return coordenada
 
 
 class AStarCornersAgent(SearchAgent):
