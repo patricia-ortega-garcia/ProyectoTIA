@@ -245,11 +245,12 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 	"""Search the node that has the lowest combined cost and heuristic first."""
 	
 	nodoInicial = problem.getStartState()
-	porVisitar = [(0, 0, nodoInicial, [])] #Tupla: coste + heuristico, coste acumuado, nodo, camino hasta el nodo
+	porVisitar = util.PriorityQueue()
+	porVisitar.push((0, nodoInicial, []),0) #(Tupla: coste acumuado, nodo, camino hasta el nodo), coste + heuristico
 	visitados = []
 	while porVisitar:
 		
-		costeHeuristico, costeAcum, nodoAct, camino_hasta_nodo = heapq.heappop(porVisitar) #Nodo y camino que indica como se llega hasta él 
+		costeAcum, nodoAct, camino_hasta_nodo = porVisitar.pop() #Nodo y camino que indica como se llega hasta él 
 		if nodoAct not in visitados:
 			
 			if problem.isGoalState(nodoAct):
@@ -267,7 +268,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 					costeHeuristico = nuevoCoste + heuristic(nodoSucesor,problem)
 					nuevoCamino = camino_hasta_nodo + [direcSucesor]
 					if nodoSucesor not in visitados:
-						heapq.heappush(porVisitar, (costeHeuristico, nuevoCoste, nodoSucesor, nuevoCamino))
+						porVisitar.push((nuevoCoste, nodoSucesor, nuevoCamino), costeHeuristico)
+						#heapq.heappush(porVisitar, (costeHeuristico, nuevoCoste, nodoSucesor, nuevoCamino))
 
 
 	# ppdpd

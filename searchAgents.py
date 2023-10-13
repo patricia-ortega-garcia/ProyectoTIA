@@ -595,6 +595,10 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
+    #position son las coordenadas en las que se encuentra el pacman
+    #foodGrid es un Grid de True or False
+    comidasCoord = foodGrid.asList()
+    
     return 0
 
 
