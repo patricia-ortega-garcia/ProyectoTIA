@@ -592,39 +592,39 @@ def foodHeuristic(state, problem):
     Subsequent calls to this heuristic can access
     problem.heuristicInfo['wallCount']
     """
+    print(problem.walls.count())
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
     #position son las coordenadas en las que se encuentra el pacman
     #foodGrid es un Grid de True or False
     comidasCoord = foodGrid.asList()
-    print(comidasCoord)
+    #print(foodGrid)
     if not comidasCoord:
         return 0
     
+    
     comidavisitada = foodGrid.asList()
     heuristico = 0
-    colaPrioridad = util.PriorityQueue()
+
     listaDistancias = []
     porVisitar = []
     for i in range(len(comidasCoord)):
-        if not comidavisitada[i]:
             porVisitar.append(comidasCoord[i])
 
-    if not colaPrioridad:
-        return 0
 
-    while colaPrioridad:  #Mientras queden esquinas por visitar...
+    while porVisitar:  #Mientras queden esquinas por visitar...
         comidaAct = porVisitar.pop()
         comidavisitada.append(comidaAct)
-        distanciaAct = self.euclideanHeuristic(position, comidaAct)
+        distanciaAct = util.manhattanDistance(position, comidaAct)
+        print(distanciaAct)
         listaDistancias.append(distanciaAct)
         heuristico = heuristico + min(listaDistancias)
     
+
+
     return heuristico
 
     
-
-
 class ClosestDotSearchAgent(SearchAgent):
     """Search for all food using a sequence of searches"""
 
