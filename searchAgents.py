@@ -596,31 +596,34 @@ def foodHeuristic(state, problem):
     "*** YOUR CODE HERE ***"
     #position son las coordenadas en las que se encuentra el pacman
     #foodGrid es un Grid de True or False
-    comidasCoord = foodGrid.asList()
-    print(comidasCoord)
-    if not comidasCoord:
+     
+     
+    listaHeuristicos = [0]
+    estadoInicial = problem.startingGameState
+    coordComidas = foodGrid.asList()
+
+    print("La posición del PacMan es: ", position)
+    print("Y las coordenadas donde hay comida son: ", coordComidas)
+
+    if not coordComidas:
         return 0
     
-    comidavisitada = foodGrid.asList()
-    heuristico = 0
-    colaPrioridad = util.PriorityQueue()
-    listaDistancias = []
-    porVisitar = []
-    for i in range(len(comidasCoord)):
-        if not comidavisitada[i]:
-            porVisitar.append(comidasCoord[i])
-
-    if not colaPrioridad:
-        return 0
-
-    while colaPrioridad:  #Mientras queden esquinas por visitar...
-        comidaAct = porVisitar.pop()
-        comidavisitada.append(comidaAct)
-        distanciaAct = self.euclideanHeuristic(position, comidaAct)
-        listaDistancias.append(distanciaAct)
-        heuristico = heuristico + min(listaDistancias)
+    for comida in coordComidas:
+        distancia = mazeDistance(position,comida,estadoInicial)
+        listaHeuristicos.append(distancia)
     
-    return heuristico
+    heuristicoLejano = max(listaHeuristicos)
+    
+    return heuristicoLejano
+
+    """
+    comidaCercana =
+    comidaLejana = 
+
+    comidaCercanaId = coordComidas.index
+    comidaLejanaId =
+    """
+
 
     
 
