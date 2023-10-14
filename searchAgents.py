@@ -609,13 +609,15 @@ def foodHeuristic(state, problem):
         return 0
     
     for comida in coordComidas:
-        distancia = mazeDistance(position,comida,estadoInicial)
+        #Calculamos la distancia en el laberinto entre la posición del PacMan y la posición de la comida dada
+        distancia = mazeDistance(position,comida,estadoInicial) 
         listaHeuristicos.append(distancia)
     
     heuristicoLejano = max(listaHeuristicos)
     
     return heuristicoLejano
 
+    
 
 
 class ClosestDotSearchAgent(SearchAgent):
