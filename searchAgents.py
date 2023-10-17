@@ -617,6 +617,45 @@ def foodHeuristic(state, problem):
     
     return heuristicoLejano
 
+
+    """
+    #VERSIÓN A: Autograder 3/4 sin utilizar mazeDistance()
+
+    #position son las coordenadas en las que se encuentra el pacman
+    #foodGrid es un Grid de True or False
+    comidasCoord = foodGrid.asList()
+    if not comidasCoord:
+        return 0
+    
+    actual = position
+    comidavisitada = foodGrid.asList()
+    heuristico = 0
+    sumatotal = 0
+    listaDistancias = []
+    porVisitar = []
+    for i in range(len(comidasCoord)):
+            porVisitar.append(comidasCoord[i])
+   
+    while porVisitar:  #Mientras queden comidas por visitar...
+        
+        listaDistancias = []
+        for comida in porVisitar:
+            heuristico = util.manhattanDistance(actual, comida)
+            listaDistancias.append((heuristico, comida))
+
+        # Encuentra la comida más cercana
+        valor, comi = max(listaDistancias, key=lambda x: x[0])
+
+        indi = porVisitar.index(comi)
+        porVisitar.pop(indi)
+
+        sumatotal = sumatotal + valor
+
+        return sumatotal
+    
+    """
+
+
     
 
 
