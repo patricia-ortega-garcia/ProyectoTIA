@@ -602,28 +602,63 @@ def foodHeuristic(state, problem):
     if not comidasCoord:
         return 0
     
-    
+    actual = position
     comidavisitada = foodGrid.asList()
     heuristico = 0
-
+    sumatotal = 0
     listaDistancias = []
     porVisitar = []
     for i in range(len(comidasCoord)):
             porVisitar.append(comidasCoord[i])
+   
+    while porVisitar:  #Mientras queden comidas por visitar...
+        
+        listaDistancias = []
+        for comida in porVisitar:
+            heuristico = util.manhattanDistance(actual, comida)
+            listaDistancias.append((heuristico, comida))
 
+        # Encuentra la comida más cercana
+        valor, comi = max(listaDistancias, key=lambda x: x[0])
 
-    while porVisitar:  #Mientras queden esquinas por visitar...
-        comidaAct = porVisitar.pop()
-        comidavisitada.append(comidaAct)
-        distanciaAct = util.manhattanDistance(position, comidaAct)
-        print(distanciaAct)
-        listaDistancias.append(distanciaAct)
-        heuristico = heuristico + min(listaDistancias)
+        indi = porVisitar.index(comi)
+        porVisitar.pop(indi)
+
+        #print("########################" + str(indi))
+        #print("1111")
+        #print(comidavisitada)
+        #print("2222")
+        #print(comi)
+        #print("3333")
+        sumatotal = sumatotal + valor
+
+        return sumatotal
+
+        """
+
+        for comida in comidasCoord:
+            heuristico = util.manhattanDistance(actual,comida)
+            listacomidas[heuristico] = comida
+            valor = min(listacomidas.keys())
+
+           
+        
+        comi = listacomidas[valor]
+       
+        indi = porVisitar.index(comi)
+        print("########################" + str(indi))
+        porVisitar.pop(indi)
+
+        print(listacomidas)
+        print("1111")
+        print(comidavisitada)
+        print("2222")
+        print(comi)
+        print("3333")
+        sumatotal = sumatotal + valor
     
-
-
-    return heuristico
-
+    return sumatotal
+        """
     
 class ClosestDotSearchAgent(SearchAgent):
     """Search for all food using a sequence of searches"""
@@ -695,6 +730,8 @@ class AnyFoodSearchProblem(PositionSearchProblem):
 
         "*** YOUR CODE HERE ***"
         obj = self.food[x][y]
+        print(obj)
+        print("===========")
         return obj
         util.raiseNotDefined()
 

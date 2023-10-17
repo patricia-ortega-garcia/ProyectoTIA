@@ -229,7 +229,7 @@ def uniformCostSearch(problem):
 					nuevoCoste = problem.getCostOfActions(nuevoCamino) + costeSucesor
 					if nodoSucesor not in visitados:
 						porVisitar.push((nodoSucesor, nuevoCamino), nuevoCoste)
-
+		
 
 
 
