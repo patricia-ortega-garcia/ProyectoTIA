@@ -269,14 +269,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 					nuevoCamino = camino_hasta_nodo + [direcSucesor]
 					if nodoSucesor not in visitados:
 						porVisitar.push((nuevoCoste, nodoSucesor, nuevoCamino), costeHeuristico)
-						#heapq.heappush(porVisitar, (costeHeuristico, nuevoCoste, nodoSucesor, nuevoCamino))
-
-
-	# ppdpd
-	# dddd
-
-
-
+						#heapq.heappush(porVisitar, (costeHeuristico, nuevoCoste, nodoSucesor, nuevoCamino)) utilizado en la anterior versión del código.
 
 
 
