@@ -596,7 +596,8 @@ def foodHeuristic(state, problem):
     "*** YOUR CODE HERE ***"
     #position son las coordenadas en las que se encuentra el pacman
     #foodGrid es un Grid de True or False
-     
+
+    # VERSIÓN FinalB (Algoritmo 1 Pregunta 7): Autograder 5/4 utilizando mazeDistance()
 
     listaHeuristicos = [0]
     estadoInicial = problem.startingGameState
@@ -619,7 +620,7 @@ def foodHeuristic(state, problem):
 
 
     """
-    #VERSIÓN A: Autograder 3/4 sin utilizar mazeDistance()
+    #VERSIÓN FinalA (Algoritmo 1 Pregunta 7): Autograder 3/4 sin utilizar mazeDistance()
 
     #position son las coordenadas en las que se encuentra el pacman
     #foodGrid es un Grid de True or False
