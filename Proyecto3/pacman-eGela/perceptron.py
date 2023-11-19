@@ -56,11 +56,11 @@ class PerceptronClassifier:
         self.features = trainingData[0].keys()  # could be useful later
         # DO NOT ZERO OUT YOUR WEIGHTS BEFORE STARTING TRAINING, OR
         # THE AUTOGRADER WILL LIKELY DEDUCT POINTS.
-
+        label = util.Counter() # 
         for iteration in range(self.max_iterations):
             print("Starting iteration ", iteration, "...")
             for i in range(len(trainingData)):  # training data
-                pdb.set_trace()  # esto es un break point para que puedas comprobar el formato de los datos
+                #print(trainingData[i]) # esto es un break point para que puedas comprobar el formato de los datos
                 ########################################################################################
                 # 1. i es el indice de un ejemplo (un item, f(x) de un ejemplo) del conjunto de entrenamiento.
                 # 2. Asi pues, en cada vuelta de este loop se trata un solo ejemplo
@@ -71,7 +71,13 @@ class PerceptronClassifier:
                 #          Recordad tambien que es una clasificacion multiclase en este caso. Hay tantas clases como nos marca el atributo self.legalLabels
                 #########################################################################################
                 "*** YOUR CODE HERE ***"
-                util.raiseNotDefined()
+                for j in self.legalLabels:
+                    label[j] = trainingData[i].__mul__(self.weights[j])
+                    #print(self.weights[j])
+                if trainingLabels[i] != label.argMax(): # si la etiqueta del ejemplo no coincide con la etiqueta que da el producto punto
+                    self.weights[trainingLabels[i]] += trainingData[i]
+                    self.weights[label.argMax()] -= trainingData[i]     
+                #  util.raiseNotDefined()
 
     def classify(self, data):
         """
