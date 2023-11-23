@@ -13,6 +13,7 @@
 
 
 # Perceptron implementation for apprenticeship learning
+import time
 import util
 from perceptron import PerceptronClassifier
 from pacman import GameState
@@ -44,9 +45,21 @@ class PerceptronClassifierPacman(PerceptronClassifier):
         self.features = trainingData[0][0]['Stop'].keys()  # could be useful later
         # DO NOT ZERO OUT YOUR WEIGHTS BEFORE STARTING TRAINING, OR
         # THE AUTOGRADER WILL LIKELY DEDUCT POINTS.
-
+      
         for iteration in range(self.max_iterations):
             print("Starting iteration ", iteration, "...")
             for i in range(len(trainingData)):
                 "*** YOUR CODE HERE ***"
-                util.raiseNotDefined()
+                #print("TRAIIIIN" ,trainingLabels[i])
+                for j in range(len(trainingData[i][1])):
+                    #print("OOAOAOA",trainingData[j])
+                    aprima = self.classify([trainingData[j]]).pop()
+                    #print("APRIMA: ", str(aprima))
+                    if trainingLabels[i] != aprima:
+                        self.weights = self.weights + trainingData[i][0][trainingData[i][1][j]]
+                        self.weights = self.weights - trainingData[i][0][self.classify([trainingData[i]])[0]]
+                    else:
+                        print("Ha coincidido, se prosigue con la siguiente iteracion")
+                #util.raiseNotDefined()
+
+
