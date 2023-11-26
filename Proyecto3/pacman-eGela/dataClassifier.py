@@ -65,10 +65,7 @@ def enhancedFeatureExtractorDigit(datum):
     ##
     """
     features = basicFeatureExtractorDigit(datum)
-
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
-
+    
     return features
 
 
@@ -116,6 +113,7 @@ def enhancedPacmanFeatures(state, action):
     state = state.generateSuccessor(0, action)
     foods = state.getFood().asList()
     pac = state.getPacmanPosition()
+    capsus = state.getCapsules()
     ghostPositions = state.getGhostPositions()
 
     "*** YOUR CODE HERE ***"
@@ -135,12 +133,29 @@ def enhancedPacmanFeatures(state, action):
     # pdb.set_trace()
 
     minD = 10000000000
-    for ghost in state.getGhostPositions():
+    #fantasma mas cercano
+    for ghost in ghostPositions:
         d = util.manhattanDistance(pac, ghost)
         minD = min(d, minD)
 
     features["closest ghost"] = minD  # 1/pow(minD,2)
+ 
+    #añadido si esta parado
+    if action == 'Stop':
+        features['Stop'] = 1
+    else:
+        features['Stop'] = 0
+    #capsulas
+    capsulas = 9999
+    for capsula in capsus:
+        d = util.manhattanDistance(pac, capsula)
+        capsulas = min(d, capsulas)
 
+    if capsulas != 9999:
+        features["capsulas"] = 1.0 / capsulas
+    else:
+        features["capsulas"] = 0
+    
     return features
 
 

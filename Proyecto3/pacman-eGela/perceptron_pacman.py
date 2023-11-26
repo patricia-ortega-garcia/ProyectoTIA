@@ -56,9 +56,6 @@ class PerceptronClassifierPacman(PerceptronClassifier):
                     aprima = self.classify([trainingData[j]]).pop()
                     #print("APRIMA: ", str(aprima))
                     if trainingLabels[i] != aprima:
-                        print("ksksks",self.classify([trainingData[i]])[0])
-                        print("\n")
-                        print("jdjdj", aprima)
                         self.weights = self.weights + trainingData[i][0][trainingData[i][1][j]]
                         self.weights = self.weights - trainingData[i][0][self.classify([trainingData[i]])[0]] #explicar aqui problema que hemos tenido, por que no puedo usar aprima?
                     else:
