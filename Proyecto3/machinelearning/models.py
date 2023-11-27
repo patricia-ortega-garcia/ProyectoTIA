@@ -83,12 +83,17 @@ class RegressionModel(object):
     def __init__(self):
         # Initialize your model parameters here
         # For example:
-        # self.batch_size = 20
-        # self.w0 = nn.Parameter(1, 5)
-        # self.b0 = nn.Parameter(1, 5)
-        # self.w1 = nn.Parameter(5, 1)
-        # self.b1 = nn.Parameter(1, 1)
-        # self.lr = -0.01
+        self.batch_size = 20
+        self.w0 = nn.Parameter(1, 50)
+        self.b0 = nn.Parameter(1, 50)
+        self.w1 = nn.Parameter(50, 1)
+        self.b1 = nn.Parameter(1, 1)
+        self.lr = -0.005
+        self.fb = nn.Parameter(1,15)
+        self.sb = nn.Parameter(1,10)
+        self.tw = nn.Parameter(10,1)
+        self.tb = nn.Parameter(1,1)
+        self.learning_rate = -0.005
         #
         "*** YOUR CODE HERE ***"
 
@@ -107,10 +112,10 @@ class RegressionModel(object):
             Como es un modelo de regresion, cada valor y tambien tendra un unico valor
         """
         "*** YOUR CODE HERE ***"
-
-
-
-
+        escondido = nn.ReLU(nn.AddBias(nn.Linear(x, self.w0), self.b0))
+        operacion = nn.AddBias(nn.Linear(escondido, self.w1), self.b1)
+        print("La OPERACION ES: ", operacion)
+        return operacion
 
 
 
@@ -127,11 +132,9 @@ class RegressionModel(object):
                 return nn.SquareLoss(self.run(x),ANNADE LA VARIABLE QUE ES NECESARIA AQUI), para medir el error, necesitas comparar el resultado de tu prediccion con .... que?
         """
         "*** YOUR CODE HERE ***"
-
-
-
-
-
+        predicho = self.run(x) # valor predicho
+        error = nn.SquareLoss(predicho,y) # calculo del error
+        return error
 
     def train(self, dataset):
         """
@@ -141,12 +144,23 @@ class RegressionModel(object):
         
         batch_size = self.batch_size
         total_loss = 100000
-        while total_loss > 0.02:
+        while total_loss > 0.03:
             #ITERAR SOBRE EL TRAIN EN LOTES MARCADOS POR EL BATCH SIZE COMO HABEIS HECHO EN LOS OTROS EJERCICIOS
             #ACTUALIZAR LOS PESOS EN BASE AL ERROR loss = self.get_loss(x, y) QUE RECORDAD QUE GENERA
             #UNA FUNCION DE LA LA CUAL SE  PUEDE CALCULAR LA DERIVADA (GRADIENTE)
 
             "*** YOUR CODE HERE ***"
+            for x, y in dataset.iterate_forever(batch_size):
+                error = self.get_loss(x, y)
+                gradients = nn.gradients(error, [self.w0, self.b0, self.w1, self.b1])
+                
+                self.w0.update(gradients[0], -self.lr)
+                self.b0.update(gradients[1], -self.lr)
+                self.w1.update(gradients[2], -self.lr)
+                self.b1.update(gradients[3], -self.lr)
+
+            total_loss = nn.as_scalar(error)
+        
 
 
 
@@ -232,13 +246,12 @@ class DigitClassificationModel(object):
         NO LO TENEIS QUE IMPLEMENTAR, PERO SABED QUE EMPLEA EL RESULTADO DEL SOFTMAX PARA CALCULAR
         EL NUM DE EJEMPLOS DEL TRAIN QUE SE HAN CLASIFICADO CORRECTAMENTE 
         """
+
         batch_size = self.batch_size
         while dataset.get_validation_accuracy() < 0.97:
             #ITERAR SOBRE EL TRAIN EN LOTES MARCADOS POR EL BATCH SIZE COMO HABEIS HECHO EN LOS OTROS EJERCICIOS
             #ACTUALIZAR LOS PESOS EN BASE AL ERROR loss = self.get_loss(x, y) QUE RECORDAD QUE GENERA
             #UNA FUNCION DE LA LA CUAL SE  PUEDE CALCULAR LA DERIVADA (GRADIENTE)
             "*** YOUR CODE HERE ***"
-
-
-
+           
 
