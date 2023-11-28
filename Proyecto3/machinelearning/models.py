@@ -184,8 +184,19 @@ class DigitClassificationModel(object):
 
         output_size = 10 # TAMANO EQUIVALENTE AL NUMERO DE CLASES DADO QUE QUIERES OBTENER 10 CLASES
         pixel_dim_size = 28
-        pixel_vector_length = pixel_dim_size* pixel_dim_size
- 
+        pixel_vector_length = pixel_dim_size * pixel_dim_size
+        self.batch_size = 10
+        # 4 capas, 3 ocultas y 1 de salida
+        self.w0 = nn.Parameter(pixel_vector_length, 250)
+        self.b0 = nn.Parameter(1, 250)
+        self.w1 = nn.Parameter(250, 150)
+        self.b1 = nn.Parameter(1, 150)
+        self.w2 = nn.Parameter(150, 64)
+        self.b2 = nn.Parameter(1, 64)
+        self.w3 = nn.Parameter(64, output_size)
+        self.b3 = nn.Parameter(1, output_size)
+        
+        self.lr = -0.05
         "*** YOUR CODE HERE ***"
 
      
@@ -207,7 +218,22 @@ class DigitClassificationModel(object):
         """
         "*** YOUR CODE HERE ***"
 
+        w_a0 = nn.Linear(x, self.w0)
+        salida_capa0 = nn.AddBias(w_a0, self.b0) #salida de la primera capa
+        salida_capa0_relu = nn.ReLU(salida_capa0) 
 
+        w_a1 = nn.Linear(salida_capa0_relu, self.w1)
+        salida_capa1 = nn.AddBias(w_a1, self.b1)
+        salida_capa1_relu = nn.ReLU(salida_capa1)
+        
+        w_a2 = nn.Linear(salida_capa1_relu, self.w2)    
+        salida_capa2 = nn.AddBias(w_a2, self.b2)  
+        salida_capa2_relu = nn.ReLU(salida_capa2)
+
+        w_a3 = nn.Linear(salida_capa2_relu, self.w3)
+        salida_capa3 = nn.AddBias(w_a3, self.b3)
+
+        return salida_capa3
 
 
 
@@ -242,13 +268,26 @@ class DigitClassificationModel(object):
         NO LO TENEIS QUE IMPLEMENTAR, PERO SABED QUE EMPLEA EL RESULTADO DEL SOFTMAX PARA CALCULAR
         EL NUM DE EJEMPLOS DEL TRAIN QUE SE HAN CLASIFICADO CORRECTAMENTE 
         """
-        batch_size = self.batch_size
+        batch_size = 50 #Modifica el tamaño del batch
         while dataset.get_validation_accuracy() < 0.97:
             #ITERAR SOBRE EL TRAIN EN LOTES MARCADOS POR EL BATCH SIZE COMO HABEIS HECHO EN LOS OTROS EJERCICIOS
             #ACTUALIZAR LOS PESOS EN BASE AL ERROR loss = self.get_loss(x, y) QUE RECORDAD QUE GENERA
             #UNA FUNCION DE LA LA CUAL SE  PUEDE CALCULAR LA DERIVADA (GRADIENTE)
             "*** YOUR CODE HERE ***"
+            for x, y in dataset.iterate_once(batch_size):
 
+                perdida = self.get_loss(x,y)
+                gradientes = nn.gradients(perdida, [self.w0, self.w1, self.w2,self.w3, self.b0, self.b1, self.b2,self.b3])
+                
+                self.w0.update(gradientes[0], self.lr)
+                self.w1.update(gradientes[1], self.lr)
+                self.w2.update(gradientes[2], self.lr)
+                self.w3.update(gradientes[3], self.lr)
+                self.b0.update(gradientes[4], self.lr)
+                self.b1.update(gradientes[5], self.lr)
+                self.b2.update(gradientes[6], self.lr)  
+                self.b3.update(gradientes[7], self.lr)  
+            
 
 
 
