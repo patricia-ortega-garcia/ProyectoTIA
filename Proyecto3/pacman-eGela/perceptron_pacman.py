@@ -50,11 +50,8 @@ class PerceptronClassifierPacman(PerceptronClassifier):
             print("Starting iteration ", iteration, "...")
             for i in range(len(trainingData)):
                 "*** YOUR CODE HERE ***"
-                #print("TRAIIIIN" ,trainingLabels[i])
                 for j in range(len(trainingData[i][1])):
-                    #print("OOAOAOA",trainingData[j])
                     aprima = self.classify([trainingData[j]]).pop()
-                    #print("APRIMA: ", str(aprima))
                     if trainingLabels[i] != aprima:
                         self.weights = self.weights + trainingData[i][0][trainingData[i][1][j]]
                         self.weights = self.weights - trainingData[i][0][self.classify([trainingData[i]])[0]] #explicar aqui problema que hemos tenido, por que no puedo usar aprima?

@@ -75,13 +75,8 @@ class PerceptronClassifier:
                 for j in self.legalLabels:
                     print("J y peso:  "  + str(self.weights[j]))
                     label[j] = trainingData[i].__mul__(self.weights[j])
-                    #print("iiii" + str(self.weights[j] ))
-       
-                    #print("eeee" + str(label[j]))
-                
-                    #print(self.weights[j])
-                if trainingLabels[i] != label.argMax(): # y prima es label.argMax(), si la etiqueta del ejemplo no coincide con la etiqueta que da el producto punto
-                    self.weights[trainingLabels[i]] += trainingData[i]  #
+                if trainingLabels[i] != label.argMax(): # y prima es label.argMax(), si la etiqueta del ejemplo no coincide con la etiqueta que da el producto
+                    self.weights[trainingLabels[i]] += trainingData[i]  # le damos mas peso
                     self.weights[label.argMax()] -= trainingData[i]     # le damos menos peso
                 #  util.raiseNotDefined()
 
