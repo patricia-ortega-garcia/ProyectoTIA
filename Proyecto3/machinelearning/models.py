@@ -288,6 +288,3 @@ class DigitClassificationModel(object):
                 self.b2.update(gradientes[6], self.lr)  
                 self.b3.update(gradientes[7], self.lr)  
             
-
-
-
