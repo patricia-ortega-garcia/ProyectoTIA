@@ -232,14 +232,30 @@ class ApproximateQAgent(PacmanQAgent):
           where * is the dotProduct operator
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        pesos = self.weights
+        features = self.featExtractor.getFeatures(state,action) #sacar los rasgos que existen
+        valorQ = 0 #inicializar valor Q
+        
+        for i in pesos:
+            valorQ = valorQ + (features[i] * pesos[i]) #formula para actualizar Q
+        
+        return valorQ
+
 
     def update(self, state, action, nextState, reward):
         """
            Should update your weights based on transition
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        pesos = self.getWeights() #obtener pesos
+        rasgos = self.featExtractor.getFeatures(state,action) #features para ese estado y accion
+        valorQActual = self.getQValue(state,action) # valor q actual 
+        qMax = self.computeValueFromQValues(nextState) #valor q maximo
+
+        difference = (reward + (self.discount * qMax )) - valorQActual #diferencia entre q nuevo y q actual
+        for rasgo in rasgos:
+          pesos[rasgo] = pesos[rasgo] + self.alpha * difference * rasgos[rasgo]
+    
 
     def final(self, state):
         "Called at the end of each game."
