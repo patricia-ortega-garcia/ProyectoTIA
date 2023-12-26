@@ -233,7 +233,7 @@ class ApproximateQAgent(PacmanQAgent):
           where * is the dotProduct operator
         """
         "*** YOUR CODE HERE ***"
-        pesos = self.weights
+        pesos = self.getWeights()
         features = self.featExtractor.getFeatures(state,action) #sacar los rasgos que existen
         valorQ = 0 #inicializar valor Q
         
@@ -253,9 +253,9 @@ class ApproximateQAgent(PacmanQAgent):
         valorQActual = self.getQValue(state,action) # valor q actual 
         qMax = self.computeValueFromQValues(nextState) #valor q maximo
 
-        difference = (reward + (self.discount * qMax )) - valorQActual #diferencia entre q nuevo y q actual
+        difference = (reward + (self.discount * qMax )) - valorQActual # diferencia entre q nuevo y q actual
         for rasgo in rasgos:
-          pesos[rasgo] = pesos[rasgo] + self.alpha * difference * rasgos[rasgo]
+          pesos[rasgo] = pesos[rasgo] + self.alpha * difference * rasgos[rasgo] # actualizar los pesos
     
 
     def final(self, state):
