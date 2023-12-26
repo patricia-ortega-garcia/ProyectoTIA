@@ -103,13 +103,14 @@ class QLearningAgent(ReinforcementAgent):
           return None
 
         # Obtener valor Q para cada acción legal
-        valsQ = []
-        for accion in accionesLegales:
-          valorNuevo = self.getQValue(state, accion)
-          valsQ.append(valorNuevo)
+        #valsQ = []
+        #for accion in accionesLegales:
+        #  valorNuevo = self.getQValue(state, accion)
+        #  valsQ.append(valorNuevo)
 
         # Obtenemos la mayor Q 
-        maxQ = max(valsQ)
+        #maxQ = max(valsQ)
+        maxQ = self.computeValueFromQValues(state)
 
         # Obtenemos las acciones correspondientes
         mejoresAcciones = []
